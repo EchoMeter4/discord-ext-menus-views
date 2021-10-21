@@ -354,6 +354,11 @@ class SubMenu(ViewMenu):
 
         return view
 
+    def stop(self, *, show_index: bool = False):
+        """Make sure to set show_index to true on an index calling button."""
+        self.show_index = show_index
+        super().stop()
+
     async def finalize(self, timed_out):
         if timed_out or not self.show_index:
             return
@@ -399,7 +404,7 @@ class SubMenu(ViewMenu):
             if item.custom_id.startswith('indexmenu'):
                 view.add_item(item)
 
-        for i ,(emoji, button) in enumerate(self.buttons.items()):
+        for i, (emoji, button) in enumerate(self.buttons.items()):
             item = discord.ui.Button(style=discord.ButtonStyle.secondary, emoji=emoji, row=i // 5 + 1)
             item.callback = make_callback(button)
             view.add_item(item)
