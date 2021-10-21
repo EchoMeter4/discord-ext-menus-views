@@ -313,9 +313,8 @@ class SubMenuPages(ViewMenuPages):
             if item.custom_id.startswith('indexmenu'):
                 view.add_item(item)
 
-        submenu_buttons_row = len(view.children) // 5 + 1
-        for emoji, button in self.buttons.items():
-            item = discord.ui.Button(style=discord.ButtonStyle.secondary, emoji=emoji, row=submenu_buttons_row)
+        for i, (emoji, button) in enumerate(self.buttons.items()):
+            item = discord.ui.Button(style=discord.ButtonStyle.secondary, emoji=emoji, row=i // 5 + 1)
             item.callback = make_callback(button)
             view.add_item(item)
 
@@ -400,9 +399,8 @@ class SubMenu(ViewMenu):
             if item.custom_id.startswith('indexmenu'):
                 view.add_item(item)
 
-        submenu_buttons_row = len(view.children) // 5 + 1
-        for emoji, button in self.buttons.items():
-            item = discord.ui.Button(style=discord.ButtonStyle.secondary, emoji=emoji, row=submenu_buttons_row)
+        for i ,(emoji, button) in enumerate(self.buttons.items()):
+            item = discord.ui.Button(style=discord.ButtonStyle.secondary, emoji=emoji, row=i // 5 + 1)
             item.callback = make_callback(button)
             view.add_item(item)
 
