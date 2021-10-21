@@ -185,8 +185,8 @@ class ViewMenuPages(menus.MenuPages, ViewMenu):
 
 class IndexMenu(ViewMenu):
 
-    def __init__(self, clear_reactions_after=True, **kwargs):
-        super().__init__(clear_reactions_after=clear_reactions_after, **kwargs)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.active_menu = None
 
     async def send_initial_message(self, ctx, channel):
@@ -238,7 +238,7 @@ class IndexMenu(ViewMenu):
 
 class SubMenuPages(ViewMenuPages):
 
-    def __init__(self, *, parent_menu: IndexMenu, source, **kwargs):
+    def __init__(self, source, *, parent_menu: IndexMenu, **kwargs):
         self._source = source
         self.parent_menu = parent_menu
         super().__init__(message=parent_menu.message, source=source, clear_reactions_after=False, **kwargs)
@@ -325,7 +325,7 @@ class SubMenuPages(ViewMenuPages):
 
 class SubMenu(ViewMenu):
 
-    def __init__(self, *, parent_menu, **kwargs):
+    def __init__(self, *, parent_menu: IndexMenu, **kwargs):
         self.parent_menu = parent_menu
         super().__init__(message=parent_menu.message, clear_reactions_after=False, **kwargs)
         self.show_index = True
