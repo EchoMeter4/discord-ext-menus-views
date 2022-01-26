@@ -29,39 +29,42 @@ In most cases, this should already work. However, you probably want to take adva
 Here's a simple example:
 
 ```py
-from discord.ext import menus
-from discord.ext.menus.views import ViewMenu
+from disnake.ext import menus
+from disnake.ext.menus.views import ViewMenu
+
 
 class MyMenu(ViewMenu):
-    async def send_initial_message(self, ctx, channel):
-        return await self.send_with_view(channel, f"Hello {ctx.author}")
+   async def send_initial_message(self, ctx, channel):
+      return await self.send_with_view(channel, f"Hello {ctx.author}")
 
-    @menus.button("\N{THUMBS UP SIGN}")
-    async def on_thumbs_up(self, interaction):
-        await interaction.followup.send(f"Thanks {self.ctx.author}!", ephemeral=True)
+   @menus.button("\N{THUMBS UP SIGN}")
+   async def on_thumbs_up(self, interaction):
+      await interaction.followup.send(f"Thanks {self.ctx.author}!", ephemeral=True)
 
-    @menus.button("\N{THUMBS DOWN SIGN}")
-    async def on_thumbs_down(self, interaction):
-        await interaction.followup.send(f"That's not nice {self.ctx.author}...", ephemeral=True)
+   @menus.button("\N{THUMBS DOWN SIGN}")
+   async def on_thumbs_down(self, interaction):
+      await interaction.followup.send(f"That's not nice {self.ctx.author}...", ephemeral=True)
 
-    @menus.button("\N{BLACK SQUARE FOR STOP}\ufe0f")
-    async def on_stop(self, payload):
-        self.stop()
+   @menus.button("\N{BLACK SQUARE FOR STOP}\ufe0f")
+   async def on_stop(self, payload):
+      self.stop()
 ```
 
 An example of `ViewMenuPages`:
 
 ```py
-from discord.ext import menus
-from discord.ext.menus.views import ViewMenuPages
+from disnake.ext import menus
+from disnake.ext.menus.views import ViewMenuPages
+
 
 class MySource(menus.ListPageSource):
-    def __init__(self, data):
-        super().__init__(data, per_page=4)
+   def __init__(self, data):
+      super().__init__(data, per_page=4)
 
-    async def format_page(self, menu, entries):
-        offset = menu.current_page * self.per_page
-        return '\n'.join(f'{i}. {v}' for i, v in enumerate(entries, start=offset))
+   async def format_page(self, menu, entries):
+      offset = menu.current_page * self.per_page
+      return '\n'.join(f'{i}. {v}' for i, v in enumerate(entries, start=offset))
+
 
 # somewhere else:
 pages = ViewMenuPages(source=MySource(range(1, 100)), clear_reactions_after=True)

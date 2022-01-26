@@ -1,8 +1,8 @@
 import os
 import math
 
-import discord
-from discord.ext import menus
+import disnake
+from disnake.ext import menus
 
 
 class ViewMenu(menus.Menu):
@@ -40,9 +40,9 @@ class ViewMenu(menus.Menu):
 
             return callback
 
-        view = discord.ui.View(timeout=self.timeout)
+        view = disnake.ui.View(timeout=self.timeout)
         for i, (emoji, button) in enumerate(self.buttons.items()):
-            item = discord.ui.Button(style=discord.ButtonStyle.secondary, emoji=emoji, row=i // 5)
+            item = disnake.ui.Button(style=disnake.ButtonStyle.secondary, emoji=emoji, row=i // 5)
             item.callback = make_callback(button)
             view.add_item(item)
 
@@ -58,7 +58,7 @@ class ViewMenu(menus.Menu):
                     self.buttons[button.emoji] = button
                     try:
                         await self.message.edit(view=self.build_view())
-                    except discord.HTTPException:
+                    except disnake.HTTPException:
                         raise
 
                 return wrapped()
@@ -77,7 +77,7 @@ class ViewMenu(menus.Menu):
                     self.buttons.pop(emoji, None)
                     try:
                         await self.message.edit(view=self.build_view())
-                    except discord.HTTPException:
+                    except disnake.HTTPException:
                         raise
 
                 return wrapped()
@@ -95,7 +95,7 @@ class ViewMenu(menus.Menu):
                 async def wrapped():
                     try:
                         await self.message.edit(view=None)
-                    except discord.HTTPException:
+                    except disnake.HTTPException:
                         raise
 
                 return wrapped()
@@ -226,9 +226,9 @@ class IndexMenu(ViewMenu):
 
             return callback
 
-        view = discord.ui.View(timeout=self.timeout)
+        view = disnake.ui.View(timeout=self.timeout)
         for i, (emoji, button) in enumerate(self.buttons.items()):
-            item = discord.ui.Button(style=discord.ButtonStyle.secondary, emoji=emoji, row=i // 5,
+            item = disnake.ui.Button(style=disnake.ButtonStyle.secondary, emoji=emoji, row=i // 5,
                                      custom_id=f"indexmenu:{os.urandom(16).hex()}")
             item.callback = make_callback(button)
             view.add_item(item)
@@ -256,7 +256,7 @@ class SubMenuPages(ViewMenuPages):
 
     def build_restored_parent_view(self):
         # Make a brand new view with the parent items since it wouldn't work using the original one.
-        view = discord.ui.View(timeout=self.parent_menu.timeout)
+        view = disnake.ui.View(timeout=self.parent_menu.timeout)
 
         for item in self.view.children:
             if item.custom_id.startswith("indexmenu"):
@@ -280,7 +280,7 @@ class SubMenuPages(ViewMenuPages):
 
     def build_view(self):
         if not self.should_add_reactions():
-            view = discord.ui.View(timeout=self.parent_menu.timeout)
+            view = disnake.ui.View(timeout=self.parent_menu.timeout)
 
             for item in self.parent_menu.view.children:
                 if item.custom_id.startswith('indexmenu'):
@@ -308,7 +308,7 @@ class SubMenuPages(ViewMenuPages):
             return callback
 
         # Brand new View Object so the original one stays intact for later use.
-        view = discord.ui.View(timeout=self.parent_menu.timeout)
+        view = disnake.ui.View(timeout=self.parent_menu.timeout)
 
         for item in self.parent_menu.view.children:
             if item.custom_id.startswith('indexmenu'):
@@ -317,7 +317,7 @@ class SubMenuPages(ViewMenuPages):
         print((len(view.children) // 5) * 5)
         for i, (emoji, button) in enumerate(self.buttons.items(), start=math.ceil(len(view.children) / 5) * 5):
             print(i // 5)
-            item = discord.ui.Button(style=discord.ButtonStyle.secondary, emoji=emoji, row=i // 5)
+            item = disnake.ui.Button(style=disnake.ButtonStyle.secondary, emoji=emoji, row=i // 5)
             item.callback = make_callback(button)
             view.add_item(item)
 
@@ -349,7 +349,7 @@ class SubMenu(ViewMenu):
 
     def build_restored_parent_view(self):
         # Make a brand new view with the parent items since it wouldn't work using the original one.
-        view = discord.ui.View(timeout=self.parent_menu.timeout)
+        view = disnake.ui.View(timeout=self.parent_menu.timeout)
 
         for item in self.view.children:
             if item.custom_id.startswith("indexmenu"):
@@ -373,7 +373,7 @@ class SubMenu(ViewMenu):
 
     def build_view(self):
         if not self.should_add_reactions():
-            view = discord.ui.View(timeout=self.parent_menu.timeout)
+            view = disnake.ui.View(timeout=self.parent_menu.timeout)
 
             for item in self.parent_menu.view.children:
                 if item.custom_id.startswith('indexmenu'):
@@ -401,14 +401,14 @@ class SubMenu(ViewMenu):
             return callback
 
         # Brand new View Object so the original one stays intact for later use.
-        view = discord.ui.View(timeout=self.parent_menu.timeout)
+        view = disnake.ui.View(timeout=self.parent_menu.timeout)
 
         for item in self.parent_menu.view.children:
             if item.custom_id.startswith('indexmenu'):
                 view.add_item(item)
 
         for i, (emoji, button) in enumerate(self.buttons.items(), start=math.ceil(len(view.children) / 5) * 5):
-            item = discord.ui.Button(style=discord.ButtonStyle.secondary, emoji=emoji, row=i // 5)
+            item = disnake.ui.Button(style=disnake.ButtonStyle.secondary, emoji=emoji, row=i // 5)
             item.callback = make_callback(button)
             view.add_item(item)
 

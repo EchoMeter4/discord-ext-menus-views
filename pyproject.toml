@@ -10,7 +10,6 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.8"
-"discord.py" = { git = "https://github.com/Rapptz/discord.py.git", branch = "master" }
 
 [tool.poetry.dev-dependencies]
 
