@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "discord-ext-menus-views"
+name = "disnake-ext-menus-views"
 version = "0.1.0"
 description = "A discord.ext.menus Menu backed by Views and Buttons instead of reactions."
 authors = ["Oliver Ni <oliver.ni@gmail.com>"]
 license = "MIT"
 packages = [
-    { include = "discord" }
+    { include = "disnake" }
 ]
 
 [tool.poetry.dependencies]
